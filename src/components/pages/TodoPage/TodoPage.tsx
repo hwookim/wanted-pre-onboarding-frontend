@@ -1,5 +1,7 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import apis from '../../../apis';
+import Todo from '../../../types/Todo';
 import { USER_SESSION } from '../../../utils/constnats';
 import TodoItem from '../../molecules/TodoItem';
 
@@ -10,13 +12,14 @@ const TodoPage: React.FC = () => {
   const [todos, setTodos] = useState<
     { id: number; todo: string; isCompleted: boolean }[]
   >([]);
-  const id = useRef(todos[todos.length - 1]?.id || 0);
 
   useEffect(() => {
     const token = localStorage.getItem(USER_SESSION);
     if (!token) {
       navigate('/signin');
     }
+
+    apis.todos.getAll().then(({ data }) => setTodos(data));
   }, []);
 
   const handleNewTodo = (event: ChangeEvent<HTMLInputElement>) => {
@@ -24,32 +27,29 @@ const TodoPage: React.FC = () => {
     setNewTodoValue(value);
   };
 
-  const handleAddTodo = () => {
-    const newTodo = {
-      id: id.current++,
-      todo: newTodoValue,
-      isCompleted: false,
-    };
-    setTodos((prev) => [...prev, newTodo]);
+  const handleAddTodo = async () => {
+    const { data } = await apis.todos.create({ todo: newTodoValue });
+    setTodos((prev) => [...prev, data]);
     setNewTodoValue('');
   };
 
-  const handleToggleTodo = (id: number) => {
+  const handleToggleTodo = (toggled: Todo) => {
+    const { id, todo, isCompleted } = toggled;
+    apis.todos.update(id, { todo, isCompleted });
     setTodos((prev) =>
-      prev.map((el) =>
-        el.id !== id ? el : { ...el, isCompleted: !el.isCompleted },
-      ),
+      prev.map((el) => (el.id !== id ? el : { ...el, isCompleted })),
     );
   };
 
   const handleRemoveTodo = (id: number) => {
+    apis.todos.remove(id);
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
-  const handleEditTodo = (id: number, value: string) => {
-    setTodos((prev) =>
-      prev.map((el) => (el.id !== id ? el : { ...el, todo: value })),
-    );
+  const handleEditTodo = (edited: Todo) => {
+    const { id, todo, isCompleted } = edited;
+    apis.todos.update(id, { todo, isCompleted });
+    setTodos((prev) => prev.map((el) => (el.id !== id ? el : { ...el, todo })));
   };
 
   return (

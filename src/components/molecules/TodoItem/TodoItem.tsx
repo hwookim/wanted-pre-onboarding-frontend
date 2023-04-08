@@ -1,12 +1,13 @@
 import React, { ChangeEvent, useState } from 'react';
+import Todo from '../../../types/Todo';
 
 interface TodoItemProps {
   id: number;
   todo: string;
   isCompleted: boolean;
-  onToggle: (id: number) => void;
+  onToggle: (toggled: Todo) => void;
   onRemove: (id: number) => void;
-  onEdit: (id: number, value: string) => void;
+  onEdit: (edited: Todo) => void;
 }
 
 const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
@@ -16,7 +17,7 @@ const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
   const [editingValue, setEditingValue] = useState<string>('');
 
   const handleToggleTodo = () => {
-    onToggle(id);
+    onToggle({ id, todo, isCompleted: !isCompleted });
   };
 
   const handleRemoveTodo = () => {
@@ -34,7 +35,7 @@ const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
   };
 
   const handleEdit = () => {
-    onEdit(id, editingValue);
+    onEdit({ id, todo: editingValue, isCompleted });
     setEditingValue('');
     setIsEditing(false);
   };
