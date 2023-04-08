@@ -14,8 +14,19 @@ const TodoPage: React.FC = () => {
     }
   });
 
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/signin');
+  };
+
   return (
     <TodosProvider>
+      <button
+        className="absolute top-10 right-10 text-lg"
+        onClick={handleLogout}
+      >
+        로그아웃
+      </button>
       <div className="mt-20 w-full flex justify-center">
         <div className="w-1/2 flex flex-col gap-4">
           <TodoList />
