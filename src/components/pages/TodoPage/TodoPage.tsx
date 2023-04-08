@@ -1,12 +1,23 @@
-import React, { ChangeEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { USER_SESSION } from '../../../utils/constnats';
 import TodoItem from '../../molecules/TodoItem';
 
 const TodoPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const [newTodoValue, setNewTodoValue] = useState<string>('');
   const [todos, setTodos] = useState<
     { id: number; todo: string; isCompleted: boolean }[]
   >([]);
   const id = useRef(todos[todos.length - 1]?.id || 0);
+
+  useEffect(() => {
+    const token = localStorage.getItem(USER_SESSION);
+    if (!token) {
+      navigate('/signin');
+    }
+  }, []);
 
   const handleNewTodo = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
