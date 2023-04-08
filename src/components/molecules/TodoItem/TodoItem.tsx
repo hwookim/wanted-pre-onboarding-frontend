@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import useTodos from '../../../lib/TodosContext/useTodos';
 import Input from '../../atoms/Input';
 import Button from '../../atoms/Button';
+import CheckBox from '../../atoms/CheckBox';
 
 interface TodoItemProps {
   id: number;
@@ -48,12 +49,8 @@ const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
 
   return (
     <li className="flex items-center gap-4">
-      <label className="w-1/2 flex gap-4">
-        <input
-          type="checkbox"
-          checked={isCompleted}
-          onChange={handleToggleTodo}
-        />
+      <label className="w-1/2 flex items-center gap-4">
+        <CheckBox checked={isCompleted} onChange={handleToggleTodo} />
         {isEditing ? (
           <Input
             data-testid="modify-input"

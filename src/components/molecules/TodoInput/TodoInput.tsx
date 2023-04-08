@@ -19,7 +19,7 @@ const TodoInput: React.FC = () => {
   };
 
   return (
-    <div className="flex gap-4">
+    <div className="mb-4 flex gap-4">
       <Input
         data-testid="new-todo-input"
         value={todo}
