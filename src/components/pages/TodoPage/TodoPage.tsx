@@ -31,6 +31,10 @@ const TodoPage: React.FC = () => {
     );
   };
 
+  const handleRemoveTodo = (id: number) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  };
+
   return (
     <>
       <input
@@ -43,7 +47,12 @@ const TodoPage: React.FC = () => {
       </button>
       <ul>
         {todos.map((todo) => (
-          <TodoItem key={todo.id} {...todo} onToggle={handleToggleTodo} />
+          <TodoItem
+            key={todo.id}
+            {...todo}
+            onToggle={handleToggleTodo}
+            onRemove={handleRemoveTodo}
+          />
         ))}
       </ul>
     </>

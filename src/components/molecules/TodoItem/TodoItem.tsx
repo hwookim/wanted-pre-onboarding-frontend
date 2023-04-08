@@ -5,13 +5,18 @@ interface TodoItemProps {
   todo: string;
   isCompleted: boolean;
   onToggle: (id: number) => void;
+  onRemove: (id: number) => void;
 }
 
 const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
-  const { id, todo, isCompleted, onToggle } = props;
+  const { id, todo, isCompleted, onToggle, onRemove } = props;
 
   const handleToggleTodo = () => {
     onToggle(id);
+  };
+
+  const handleRemoveTodo = () => {
+    onRemove(id);
   };
 
   return (
@@ -24,6 +29,9 @@ const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
         />
         <span>{todo}</span>
       </label>
+      <button data-testid="delete-button" onClick={handleRemoveTodo}>
+        삭제
+      </button>
     </li>
   );
 };
