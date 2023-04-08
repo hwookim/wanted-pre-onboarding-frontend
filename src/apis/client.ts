@@ -1,11 +1,11 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
 import { USER_SESSION } from '../utils/constnats';
 
-export interface ErrorResponse {
+export type ErrorResponse = AxiosError<{
   statusCode: number;
   message: string;
   error: string;
-}
+}>;
 
 const client: AxiosInstance = axios.create({
   baseURL: 'https://www.pre-onboarding-selection-task.shop/',

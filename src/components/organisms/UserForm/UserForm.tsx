@@ -2,12 +2,13 @@ import React, { ChangeEvent, useState } from 'react';
 import Input from '../../atoms/Input';
 import rules from '../../../utils/rules';
 import User from '../../../types/User';
+import { ErrorResponse } from '../../../apis';
 
 type FormType = 'signup' | 'signin';
 
 export interface UserFormProps {
   type: FormType;
-  onSubmit: (user: User) => void;
+  onSubmit: (user: User) => Promise<void>;
 }
 
 const TITLE: Record<FormType, string> = {
@@ -35,7 +36,13 @@ const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
   };
 
   const handleSignup = async () => {
-    onSubmit(values);
+    try {
+      await onSubmit(values);
+    } catch (err) {
+      const error = err as ErrorResponse;
+      const message = error.response?.data.message;
+      alert(message);
+    }
   };
 
   return (
