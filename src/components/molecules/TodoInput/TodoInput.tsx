@@ -1,11 +1,9 @@
 import React, { ChangeEvent, useState } from 'react';
+import useTodos from '../../../lib/TodosContext/useTodos';
 
-interface TodoInputProps {
-  onAdd: (value: string) => void;
-}
+const TodoInput: React.FC = () => {
+  const { createTodo } = useTodos();
 
-const TodoInput: React.FC<TodoInputProps> = (props: TodoInputProps) => {
-  const { onAdd } = props;
   const [todo, setTodo] = useState<string>('');
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -14,7 +12,7 @@ const TodoInput: React.FC<TodoInputProps> = (props: TodoInputProps) => {
   };
 
   const handleAdd = () => {
-    onAdd(todo);
+    createTodo(todo);
     setTodo('');
   };
 
