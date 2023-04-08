@@ -1,10 +1,8 @@
 import { AxiosResponse } from 'axios';
 import client from './client';
+import User from '../types/User';
 
-interface AuthRequest {
-  email: string;
-  password: string;
-}
+type AuthRequest = User;
 
 export const signup = (req: AuthRequest): Promise<AxiosResponse<void>> => {
   return client.post('/auth/signup', req);
