@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
+import TodoItem from '../../molecules/TodoItem';
 
 const TodoPage: React.FC = () => {
   const [newTodoValue, setNewTodoValue] = useState<string>('');
@@ -22,7 +23,7 @@ const TodoPage: React.FC = () => {
     setNewTodoValue('');
   };
 
-  const handleToggleTodo = (id: number) => () => {
+  const handleToggleTodo = (id: number) => {
     setTodos((prev) =>
       prev.map((todo) =>
         todo.id !== id ? todo : { ...todo, isCompleted: !todo.isCompleted },
@@ -41,17 +42,8 @@ const TodoPage: React.FC = () => {
         추가
       </button>
       <ul>
-        {todos.map(({ id, todo, isCompleted }, index) => (
-          <li key={index}>
-            <label>
-              <input
-                type="checkbox"
-                checked={isCompleted}
-                onChange={handleToggleTodo(id)}
-              />
-              <span>{todo}</span>
-            </label>
-          </li>
+        {todos.map((todo) => (
+          <TodoItem key={todo.id} {...todo} onToggle={handleToggleTodo} />
         ))}
       </ul>
     </>
