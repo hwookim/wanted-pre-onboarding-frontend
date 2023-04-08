@@ -1,7 +1,11 @@
 import React, { ChangeEvent, useState } from 'react';
-import rules from '../../utils/rules';
+import { useNavigate } from 'react-router-dom';
+import apis from '../../../apis';
+import rules from '../../../utils/rules';
 
 const SignupPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const [values, setValues] = useState<{ email: string; password: string }>({
     email: '',
     password: '',
@@ -16,6 +20,12 @@ const SignupPage: React.FC = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleSignup = async () => {
+    const { status } = await apis.signup(values);
+    if (status !== 201) return;
+    navigate('/signin');
   };
 
   return (
@@ -33,7 +43,11 @@ const SignupPage: React.FC = () => {
         value={password}
         onChange={handleInput}
       />
-      <button data-testid="signup-button" disabled={disabled}>
+      <button
+        data-testid="signup-button"
+        disabled={disabled}
+        onClick={handleSignup}
+      >
         회원가입
       </button>
     </>

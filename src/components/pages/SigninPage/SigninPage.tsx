@@ -1,7 +1,12 @@
 import React, { ChangeEvent, useState } from 'react';
-import rules from '../../utils/rules';
+import { useNavigate } from 'react-router-dom';
+import apis from '../../../apis';
+import { USER_SESSION } from '../../../utils/constnats';
+import rules from '../../../utils/rules';
 
 const SigninPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const [values, setValues] = useState<{ email: string; password: string }>({
     email: '',
     password: '',
@@ -16,6 +21,14 @@ const SigninPage: React.FC = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleSignin = async () => {
+    const { status, data } = await apis.signin(values);
+    if (status !== 200) return;
+
+    localStorage.setItem(USER_SESSION, data.access_token);
+    navigate('/todo');
   };
 
   return (
@@ -33,7 +46,11 @@ const SigninPage: React.FC = () => {
         value={password}
         onChange={handleInput}
       />
-      <button data-testid="signin-button" disabled={disabled}>
+      <button
+        data-testid="signin-button"
+        disabled={disabled}
+        onClick={handleSignin}
+      >
         로그인
       </button>
     </>
