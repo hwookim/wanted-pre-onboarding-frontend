@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { USER_SESSION } from '../../../utils/constnats';
 import apis from '../../../apis';
 import User from '../../../types/User';
@@ -23,6 +23,9 @@ const SignupPage: React.FC = () => {
 
   return (
     <div className="mt-20 w-full flex justify-center">
+      <Link className="absolute top-10 right-10 text-lg" to="/signin">
+        로그인
+      </Link>
       <UserForm type="signup" onSubmit={handleSignup} />
     </div>
   );

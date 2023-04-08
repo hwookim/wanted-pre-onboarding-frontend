@@ -10,15 +10,9 @@ export interface UserFormProps {
   onSubmit: (user: User) => void;
 }
 
-const FORMS: Record<FormType, { title: string; linkTo: string }> = {
-  signup: {
-    title: '회원가입',
-    linkTo: 'signin',
-  },
-  signin: {
-    title: '로그인',
-    linkTo: 'signup',
-  },
+const TITLE: Record<FormType, string> = {
+  signup: '회원가입',
+  signin: '로그인',
 };
 
 const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
@@ -46,7 +40,7 @@ const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
 
   return (
     <form className="w-1/3 flex flex-col items-center gap-4">
-      <h2 className="text-2xl font-extrabold">{FORMS[type].title}</h2>
+      <h2 className="text-2xl font-extrabold">{TITLE[type]}</h2>
       <Input
         data-testid="email-input"
         name="email"
@@ -67,7 +61,7 @@ const UserForm: React.FC<UserFormProps> = (props: UserFormProps) => {
         disabled={disabled}
         onClick={handleSignup}
       >
-        {FORMS[type].title}
+        {TITLE[type]}
       </button>
     </form>
   );
