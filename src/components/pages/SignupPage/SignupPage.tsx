@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import apis from '../../../apis';
 import { USER_SESSION } from '../../../utils/constnats';
 import rules from '../../../utils/rules';
+import Input from '../../atoms/Input';
 
 const SignupPage: React.FC = () => {
   const navigate = useNavigate();
@@ -38,13 +39,13 @@ const SignupPage: React.FC = () => {
 
   return (
     <>
-      <input
+      <Input
         data-testid="email-input"
         name="email"
         value={email}
         onChange={handleInput}
       />
-      <input
+      <Input
         data-testid="password-input"
         type="password"
         name="password"

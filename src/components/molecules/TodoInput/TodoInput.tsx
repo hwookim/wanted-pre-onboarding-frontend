@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import useTodos from '../../../lib/TodosContext/useTodos';
+import Input from '../../atoms/Input';
 
 const TodoInput: React.FC = () => {
   const { createTodo } = useTodos();
@@ -18,7 +19,7 @@ const TodoInput: React.FC = () => {
 
   return (
     <>
-      <input
+      <Input
         data-testid="new-todo-input"
         value={todo}
         onChange={handleChange}

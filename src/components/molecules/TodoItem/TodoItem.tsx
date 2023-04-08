@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import useTodos from '../../../lib/TodosContext/useTodos';
+import Input from '../../atoms/Input';
 
 interface TodoItemProps {
   id: number;
@@ -53,7 +54,7 @@ const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
           onChange={handleToggleTodo}
         />
         {isEditing ? (
-          <input
+          <Input
             data-testid="modify-input"
             value={editingValue}
             onChange={handleChangeEditingValue}
