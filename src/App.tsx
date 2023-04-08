@@ -8,10 +8,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/todo" />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/signin" element={<SigninPage />} />
         <Route path="/todo" element={<TodoPage />} />
+        <Route path="/*" element={<Navigate to="/todo" />} />
       </Routes>
     </BrowserRouter>
   );
