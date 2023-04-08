@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import useTodos from '../../../lib/TodosContext/useTodos';
 import Input from '../../atoms/Input';
+import Button from '../../atoms/Button';
 
 interface TodoItemProps {
   id: number;
@@ -46,8 +47,8 @@ const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
   };
 
   return (
-    <li>
-      <label>
+    <li className="flex items-center gap-4">
+      <label className="w-1/2 flex gap-4">
         <input
           type="checkbox"
           checked={isCompleted}
@@ -60,28 +61,38 @@ const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
             onChange={handleChangeEditingValue}
           />
         ) : (
-          <span>{todo}</span>
+          <span className="w-full break-all">{todo}</span>
         )}
       </label>
-      {isEditing ? (
-        <>
-          <button data-testid="submit-button" onClick={handleEdit}>
-            제출
-          </button>
-          <button data-testid="cancel-button" onClick={handleCancleEdit}>
-            취소
-          </button>
-        </>
-      ) : (
-        <>
-          <button data-testid="modify-button" onClick={handleClickEdit}>
-            수정
-          </button>
-          <button data-testid="delete-button" onClick={handleRemoveTodo}>
-            삭제
-          </button>
-        </>
-      )}
+      <div className="w-1/2 flex gap-4">
+        {isEditing ? (
+          <>
+            <Button data-testid="submit-button" onClick={handleEdit}>
+              제출
+            </Button>
+            <Button
+              data-testid="cancel-button"
+              color="red"
+              onClick={handleCancleEdit}
+            >
+              취소
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button data-testid="modify-button" onClick={handleClickEdit}>
+              수정
+            </Button>
+            <Button
+              data-testid="delete-button"
+              color="red"
+              onClick={handleRemoveTodo}
+            >
+              삭제
+            </Button>
+          </>
+        )}
+      </div>
     </li>
   );
 };
