@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apis from '../../../apis';
 import { USER_SESSION } from '../../../utils/constnats';
@@ -13,6 +13,13 @@ const SigninPage: React.FC = () => {
   });
   const { email, password } = values;
   const disabled = !(rules.email(email) && rules.password(password));
+
+  useEffect(() => {
+    const token = localStorage.getItem(USER_SESSION);
+    if (token) {
+      navigate('/todo');
+    }
+  }, []);
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
