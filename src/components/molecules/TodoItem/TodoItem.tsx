@@ -36,12 +36,12 @@ const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
 
   const handleEdit = () => {
     onEdit({ id, todo: editingValue, isCompleted });
-    setEditingValue('');
+    setEditingValue(editingValue);
     setIsEditing(false);
   };
 
   const handleCancleEdit = () => {
-    setEditingValue('');
+    setEditingValue(todo);
     setIsEditing(false);
   };
 
