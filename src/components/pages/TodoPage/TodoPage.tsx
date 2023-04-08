@@ -1,14 +1,14 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apis from '../../../apis';
 import Todo from '../../../types/Todo';
 import { USER_SESSION } from '../../../utils/constnats';
 import TodoItem from '../../molecules/TodoItem';
+import TodoInput from '../../molecules/TodoInput';
 
 const TodoPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const [newTodoValue, setNewTodoValue] = useState<string>('');
   const [todos, setTodos] = useState<
     { id: number; todo: string; isCompleted: boolean }[]
   >([]);
@@ -22,15 +22,9 @@ const TodoPage: React.FC = () => {
     apis.todos.getAll().then(({ data }) => setTodos(data));
   }, []);
 
-  const handleNewTodo = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setNewTodoValue(value);
-  };
-
-  const handleAddTodo = async () => {
-    const { data } = await apis.todos.create({ todo: newTodoValue });
+  const handleAddTodo = async (value: string) => {
+    const { data } = await apis.todos.create({ todo: value });
     setTodos((prev) => [...prev, data]);
-    setNewTodoValue('');
   };
 
   const handleToggleTodo = (toggled: Todo) => {
@@ -54,14 +48,7 @@ const TodoPage: React.FC = () => {
 
   return (
     <>
-      <input
-        data-testid="new-todo-input"
-        value={newTodoValue}
-        onChange={handleNewTodo}
-      />
-      <button data-testid="new-todo-add-button" onClick={handleAddTodo}>
-        추가
-      </button>
+      <TodoInput onAdd={handleAddTodo} />
       <ul>
         {todos.map((todo) => (
           <TodoItem
