@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 interface TodoItemProps {
   id: number;
@@ -6,10 +6,14 @@ interface TodoItemProps {
   isCompleted: boolean;
   onToggle: (id: number) => void;
   onRemove: (id: number) => void;
+  onEdit: (id: number, value: string) => void;
 }
 
 const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
-  const { id, todo, isCompleted, onToggle, onRemove } = props;
+  const { id, todo, isCompleted, onToggle, onRemove, onEdit } = props;
+
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editingValue, setEditingValue] = useState<string>('');
 
   const handleToggleTodo = () => {
     onToggle(id);
@@ -17,6 +21,27 @@ const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
 
   const handleRemoveTodo = () => {
     onRemove(id);
+  };
+
+  const handleClickEdit = () => {
+    setEditingValue(todo);
+    setIsEditing(true);
+  };
+
+  const handleChangeEditingValue = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setEditingValue(value);
+  };
+
+  const handleEdit = () => {
+    onEdit(id, editingValue);
+    setEditingValue('');
+    setIsEditing(false);
+  };
+
+  const handleCancleEdit = () => {
+    setEditingValue('');
+    setIsEditing(false);
   };
 
   return (
@@ -27,11 +52,35 @@ const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
           checked={isCompleted}
           onChange={handleToggleTodo}
         />
-        <span>{todo}</span>
+        {isEditing ? (
+          <input
+            data-testid="modify-input"
+            value={editingValue}
+            onChange={handleChangeEditingValue}
+          />
+        ) : (
+          <span>{todo}</span>
+        )}
       </label>
-      <button data-testid="delete-button" onClick={handleRemoveTodo}>
-        삭제
-      </button>
+      {isEditing ? (
+        <>
+          <button data-testid="submit-button" onClick={handleEdit}>
+            제출
+          </button>
+          <button data-testid="cancel-button" onClick={handleCancleEdit}>
+            취소
+          </button>
+        </>
+      ) : (
+        <>
+          <button data-testid="modify-button" onClick={handleClickEdit}>
+            수정
+          </button>
+          <button data-testid="delete-button" onClick={handleRemoveTodo}>
+            삭제
+          </button>
+        </>
+      )}
     </li>
   );
 };

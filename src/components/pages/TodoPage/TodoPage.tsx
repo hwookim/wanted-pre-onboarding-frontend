@@ -25,14 +25,20 @@ const TodoPage: React.FC = () => {
 
   const handleToggleTodo = (id: number) => {
     setTodos((prev) =>
-      prev.map((todo) =>
-        todo.id !== id ? todo : { ...todo, isCompleted: !todo.isCompleted },
+      prev.map((el) =>
+        el.id !== id ? el : { ...el, isCompleted: !el.isCompleted },
       ),
     );
   };
 
   const handleRemoveTodo = (id: number) => {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  };
+
+  const handleEditTodo = (id: number, value: string) => {
+    setTodos((prev) =>
+      prev.map((el) => (el.id !== id ? el : { ...el, todo: value })),
+    );
   };
 
   return (
@@ -52,6 +58,7 @@ const TodoPage: React.FC = () => {
             {...todo}
             onToggle={handleToggleTodo}
             onRemove={handleRemoveTodo}
+            onEdit={handleEditTodo}
           />
         ))}
       </ul>
